@@ -49,36 +49,34 @@ export default function CustomerLogin() {
         <title>Sign In | DOPIK ELECTRONICS</title>
       </Helmet>
 
-      <div
-        className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #05050f 0%, #0c0f1e 30%, #111827 60%, #0a0a18 100%)",
-        }}
-      >
-        {/* Ambient glow blobs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
+      {/* Full-screen background — light: soft gradient, dark: deep navy */}
+      <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden
+        bg-gradient-to-br from-slate-100 via-white to-blue-50
+        dark:from-gray-950 dark:via-slate-900 dark:to-gray-950">
+
+        {/* Ambient glow blobs — only visible in dark mode */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none hidden dark:block"
           style={{ background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)" }} />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl pointer-events-none"
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl pointer-events-none hidden dark:block"
           style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }} />
 
+        {/* Subtle light-mode blob */}
+        <div className="absolute top-1/3 right-1/3 w-72 h-72 rounded-full opacity-30 blur-3xl pointer-events-none block dark:hidden"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 70%)" }} />
+
         {/* Glass card */}
-        <div
-          className="relative w-full max-w-sm rounded-3xl p-8 z-10"
-          style={{
-            background: "rgba(255,255,255,0.06)",
-            backdropFilter: "blur(24px) saturate(180%)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            boxShadow: "0 25px 60px rgba(0,0,0,0.5)",
-          }}
-        >
-          {/* Logo */}
+        <div className="relative w-full max-w-sm rounded-3xl p-8 z-10 backdrop-blur-2xl
+          bg-white/80 border border-gray-200 shadow-2xl
+          dark:bg-white/[0.06] dark:border-white/[0.12] dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)]">
+
+          {/* Logo + heading */}
           <div className="flex flex-col items-center mb-8">
             <Link href="/">
               <img src="/images/logo.png" alt="DOPIK" className="h-10 object-contain mb-3"
                 onError={(e) => (e.currentTarget.style.display = "none")} />
             </Link>
-            <h1 className="text-2xl font-black text-white tracking-tight">Welcome Back</h1>
-            <p className="text-white/50 text-sm mt-1">Sign in to your DOPIK account</p>
+            <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">Welcome Back</h1>
+            <p className="text-sm mt-1 text-gray-500 dark:text-white/50">Sign in to your DOPIK account</p>
           </div>
 
           <form onSubmit={form.handleSubmit((d) => loginMutation.mutate(d))} className="space-y-4">
@@ -87,17 +85,17 @@ export default function CustomerLogin() {
               <input
                 type="email"
                 placeholder="Email"
+                autoComplete="email"
                 data-testid="input-email"
                 {...form.register("email")}
-                className="w-full h-12 rounded-full px-5 text-sm text-white placeholder:text-white/45 outline-none transition-all"
-                style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: errors.email ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)",
-                }}
-                onFocus={(e) => (e.currentTarget.style.border = "1px solid hsl(var(--primary))")}
-                onBlur={(e) => (e.currentTarget.style.border = errors.email ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)")}
+                className="w-full h-12 rounded-full px-5 text-sm outline-none transition-all
+                  bg-white border border-gray-300 text-gray-900 placeholder:text-gray-400
+                  focus:border-primary focus:ring-2 focus:ring-primary/20
+                  dark:bg-white/[0.08] dark:border-white/[0.15] dark:text-white dark:placeholder:text-white/45
+                  dark:focus:ring-primary/30"
+                style={errors.email ? { borderColor: "hsl(var(--destructive))" } : {}}
               />
-              {errors.email && <p className="text-xs text-red-400 mt-1 pl-4">{errors.email.message}</p>}
+              {errors.email && <p className="text-xs text-red-500 mt-1 pl-4">{errors.email.message}</p>}
             </div>
 
             {/* Password */}
@@ -106,25 +104,25 @@ export default function CustomerLogin() {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
+                  autoComplete="current-password"
                   data-testid="input-password"
                   {...form.register("password")}
-                  className="w-full h-12 rounded-full px-5 pr-12 text-sm text-white placeholder:text-white/45 outline-none transition-all"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    border: errors.password ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)",
-                  }}
-                  onFocus={(e) => (e.currentTarget.style.border = "1px solid hsl(var(--primary))")}
-                  onBlur={(e) => (e.currentTarget.style.border = errors.password ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)")}
+                  className="w-full h-12 rounded-full px-5 pr-12 text-sm outline-none transition-all
+                    bg-white border border-gray-300 text-gray-900 placeholder:text-gray-400
+                    focus:border-primary focus:ring-2 focus:ring-primary/20
+                    dark:bg-white/[0.08] dark:border-white/[0.15] dark:text-white dark:placeholder:text-white/45
+                    dark:focus:ring-primary/30"
+                  style={errors.password ? { borderColor: "hsl(var(--destructive))" } : {}}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors text-gray-400 hover:text-gray-700 dark:text-white/40 dark:hover:text-white/80"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-xs text-red-400 mt-1 pl-4">{errors.password.message}</p>}
+              {errors.password && <p className="text-xs text-red-500 mt-1 pl-4">{errors.password.message}</p>}
             </div>
 
             {/* Submit */}
@@ -142,30 +140,30 @@ export default function CustomerLogin() {
           </form>
 
           {/* Links row */}
-          <div className="flex items-center justify-between mt-5 text-xs text-white/45">
-            <span>Forgot Password?</span>
-            <Link href={`/register${redirectTo !== "/" ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
-              className="text-white/60 hover:text-white transition-colors font-medium">
+          <div className="flex items-center justify-between mt-5 text-xs">
+            <span className="text-gray-400 dark:text-white/45">Forgot Password?</span>
+            <Link
+              href={`/register${redirectTo !== "/" ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
+              className="font-semibold text-gray-600 hover:text-primary dark:text-white/60 dark:hover:text-white transition-colors"
+            >
               Sign Up
             </Link>
           </div>
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
-            <span className="text-xs text-white/35 uppercase tracking-widest">or login with</span>
-            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+            <div className="flex-1 h-px bg-gray-200 dark:bg-white/[0.12]" />
+            <span className="text-xs uppercase tracking-widest text-gray-400 dark:text-white/35">or login with</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-white/[0.12]" />
           </div>
 
-          {/* Social buttons */}
-          <div className="flex justify-center gap-4">
+          {/* Google button */}
+          <div className="flex justify-center">
             <a
               href={`/auth/google?redirect=${encodeURIComponent(redirectTo)}`}
-              className="flex items-center justify-center w-14 h-14 rounded-full transition-all hover:scale-105 active:scale-95"
-              style={{
-                background: "rgba(255,255,255,0.10)",
-                border: "1px solid rgba(255,255,255,0.18)",
-              }}
+              className="flex items-center justify-center w-14 h-14 rounded-full transition-all hover:scale-105 active:scale-95
+                bg-gray-50 border border-gray-200 shadow-sm
+                dark:bg-white/[0.10] dark:border-white/[0.18]"
               title="Continue with Google"
             >
               <svg className="h-6 w-6" viewBox="0 0 24 24">
