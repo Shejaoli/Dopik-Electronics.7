@@ -1,0 +1,70 @@
+Fix Google Search Console Merchant Listings structured data issues on dopikelectronics.com. Google has detected 3 missing fields in the product structured data (JSON-LD schema) on all product pages:
+1 — Add "hasMerchantReturnPolicy" field inside "offers":
+
+Add return policy details to every product's offers schema
+Format:
+
+json"hasMerchantReturnPolicy": {
+  "@type": "MerchantReturnPolicy",
+  "applicableCountry": "RW",
+  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+  "merchantReturnDays": 30,
+  "returnMethod": "https://schema.org/ReturnInStore",
+  "returnFees": "https://schema.org/FreeReturn"
+}
+2 — Add "shippingDetails" field inside "offers":
+
+Add shipping information to every product's offers schema
+Format:
+
+json"shippingDetails": {
+  "@type": "OfferShippingDetails",
+  "shippingRate": {
+    "@type": "MonetaryAmount",
+    "value": "0",
+    "currency": "RWF"
+  },
+  "shippingDestination": {
+    "@type": "DefinedRegion",
+    "addressCountry": "RW"
+  },
+  "deliveryTime": {
+    "@type": "ShippingDeliveryTime",
+    "handlingTime": {
+      "@type": "QuantitativeValue",
+      "minValue": 0,
+      "maxValue": 1,
+      "unitCode": "DAY"
+    },
+    "transitTime": {
+      "@type": "QuantitativeValue",
+      "minValue": 1,
+      "maxValue": 3,
+      "unitCode": "DAY"
+    }
+  }
+}
+3 — Add "description" field to every product schema:
+
+Use the actual product description from the database
+If no description exists fall back to the product name + category
+Format:
+
+json"description": "Certified refurbished Sony DualShock 4 Controller. 1 Year Warranty. 30 Days Return. Available in Rwanda."
+4 — Update the full "offers" object on every product page to include ALL required and recommended fields together:
+json"offers": {
+  "@type": "Offer",
+  "price": "75000",
+  "priceCurrency": "RWF",
+  "priceValidUntil": "2027-03-12",
+  "availability": "https://schema.org/InStock",
+  "itemCondition": "https://schema.org/RefurbishedCondition",
+  "url": "https://dopikelectronics.com/product/[product-slug]",
+  "seller": {
+    "@type": "Organization",
+    "name": "Dopik Electronics"
+  },
+  "hasMerchantReturnPolicy": { ... },
+  "shippingDetails": { ... }
+}
+5 — Make sure ALL of these are applied dynamically on every product page using the actual product data from the database and injected into a <script type="application/ld+json"> tag in the <head> of each product page.

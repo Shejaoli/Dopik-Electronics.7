@@ -1,0 +1,43 @@
+Two things — add a new "Maximize your savings" scrollable cards section on the homepage, AND reduce the height of the existing product cards. Mobile view only. Do NOT touch any other part of the design.
+
+PART 1 — ADD NEW "MAXIMIZE YOUR SAVINGS" SECTION
+Add a new section on the homepage between the deals banner and the existing product grid. It must look exactly like the reference image described below:
+
+Section has a plain white background, no outer border
+Title row: bold black text "Maximize your savings" on the left, small blue "See all →" link on the right
+Below the title: a horizontally scrollable row of small deal cards that DO NOT wrap — they scroll sideways only
+Each deal card is approximately 100px wide and 130px tall with:
+
+Light gray background (#f5f5f5)
+Rounded corners (10px)
+A small colored badge in the top-left corner (examples: "SAVEBIG" in green, "Live Code" in orange, "Free" in teal) — pill shape, tiny font (9px)
+A real product image in the center of the card (not an icon — use actual <img> tags with product photo URLs)
+Bold short label below the image (e.g. "Free Chemist At Play Body Wash", "Buy 1 Get 1 Free") — font size 10px, 2 lines max
+Small gray text below that (e.g. "worth ₦20", "On selected SuperYou items") — font size 9px
+
+
+Cards should have no gap between the image and the edges — image sits naturally inside the card
+Hide the scrollbar on this row
+Add a second identical scrollable row below it with a different title (e.g. "Top deals for you")
+Below both rows, keep a "Bestsellers for you" heading with the same bold title style
+
+
+PART 2 — REDUCE HEIGHT OF EXISTING PRODUCT CARDS
+The current product cards (the ones already on the homepage showing items like "Beats Pill Bluetooth Speaker" and "Soundcare Liberty 4 NC") are too tall. Do the following ONLY — do not change colors, fonts, button style, or anything else:
+
+Reduce the product image height inside each card from whatever it currently is down to 140px maximum
+Make the image use object-fit: contain so it does not get cropped
+Reduce the card's internal top and bottom padding to 8px
+Reduce the product name font size to 12px if it is currently larger
+Reduce the price font size slightly if needed so the card feels compact
+Keep the "Buy" button exactly as it is — same color, same style, just ensure it stays at the bottom of the card
+Do not change the card width or the number of columns
+
+
+GENERAL RULES:
+
+Mobile only — wrap all new CSS in @media (max-width: 768px)
+Do NOT touch desktop layout
+Do NOT touch header, footer, navbar, or product detail page
+Use new CSS class prefix .savings- for the new section to avoid conflicts
+For existing card height fix, only target the existing card image container class — do not rewrite the whole card component

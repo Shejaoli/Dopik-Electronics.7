@@ -1,0 +1,57 @@
+Fix Google Search Console "Not found (404)" indexing issue on dopikelectronics.com. Google is trying to crawl pages that return 404 errors. Here is everything that needs to be fixed:
+1 — Create a proper custom 404 page:
+
+Design a user friendly 404 page that matches the Dopik Electronics branding
+Include navigation links back to Homepage, Shop, Gaming, and other main pages
+Add a search bar so users can search for products directly from the 404 page
+Do NOT just show a blank or default error page
+
+2 — Fix broken internal links:
+
+Scan all internal links across the entire website
+Find any links pointing to pages that no longer exist or have wrong URLs
+Fix or update all broken links to point to the correct pages
+
+3 — Fix deleted or moved product pages:
+
+If products have been deleted but Google still has their URLs indexed, add 301 redirects from the old product URL to either:
+
+The new product URL if the product was renamed/moved
+Or the main shop/category page if the product no longer exists
+
+
+Example: /product/old-product-name → 301 redirect → /shop
+
+4 — Fix broken category/filter URLs:
+
+Check all category URLs like /shop?category=Gaming+Consoles are working
+Make sure the gaming page at /gaming returns 200 not 404
+Make sure all navigation menu links go to real existing pages
+
+5 — Add a sitemap.xml with only valid working URLs:
+
+Generate a fresh sitemap.xml that only includes pages that actually exist and return 200
+Remove any deleted product or page URLs from the sitemap
+Make sure sitemap is accessible at https://dopikelectronics.com/sitemap.xml
+Resubmit sitemap in Google Search Console
+
+6 — Add a robots.txt file if not present:
+
+Make sure https://dopikelectronics.com/robots.txt exists and is accessible
+It should allow Googlebot to crawl all important pages
+Format:
+
+User-agent: *
+Allow: /
+Sitemap: https://dopikelectronics.com/sitemap.xml
+7 — Handle dynamic product URLs properly:
+
+Make sure all product detail pages load correctly from the database
+If a product slug changes, automatically create a 301 redirect from old slug to new slug
+Never let a product page return 404 if the product exists in the database
+
+8 — Log and monitor 404 errors:
+
+Add server side 404 error logging so you can track which URLs are returning 404
+Store the broken URL, timestamp, and referring page in the database
+Show these in the Admin Panel under a new "SEO Health" or "Broken Links" section so the admin can fix them easily

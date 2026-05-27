@@ -1,0 +1,87 @@
+Implement a full SEO strategy to make dopikelectronics.com appear in Google Search results faster. Here is everything that needs to be done:
+1 — Add dynamic SEO meta tags to every page:
+
+Every page must have unique <title> and <meta name="description"> tags
+Format examples:
+
+html<!-- Homepage -->
+<title>Dopik Electronics | Buy Certified Refurbished Electronics in Rwanda</title>
+<meta name="description" content="Shop certified refurbished iPhones, laptops, gaming consoles and more in Rwanda. 1 Year Warranty, 30 Days Return. 500,000+ happy customers." />
+
+<!-- Product page -->
+<title>Sony DualShock 4 Controller | Buy in Rwanda | Dopik Electronics</title>
+<meta name="description" content="Buy Sony DualShock 4 Sunset Orange PS4 Controller in Rwanda. Certified refurbished, 12-month warranty. RF 0. Fast delivery in Kigali." />
+
+<!-- Category page -->
+<title>Gaming Consoles in Rwanda | Dopik Electronics</title>
+<meta name="description" content="Shop certified refurbished gaming consoles in Rwanda. PS5, Xbox, controllers and more. Best prices with warranty." />
+2 — Add Open Graph and Twitter Card meta tags to every page:
+html<meta property="og:title" content="..." />
+<meta property="og:description" content="..." />
+<meta property="og:image" content="[product or site image URL]" />
+<meta property="og:url" content="[page URL]" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+3 — Fix page load speed (Core Web Vitals):
+
+Compress and optimize all product images using WebP format
+Add lazy loading to all images
+Minify CSS and JavaScript files
+Add caching headers to static assets
+Google ranks faster websites higher
+
+4 — Make all product URLs SEO friendly:
+
+Product URLs should be clean slugs like /product/sony-dualshock-4-orange-ps4-controller
+Category URLs like /shop/gaming-consoles instead of /shop?category=Gaming+Consoles
+No special characters or spaces in URLs
+
+5 — Add internal linking throughout the site:
+
+Link related products to each other on product pages
+Add breadcrumb navigation on all pages like: Home > Gaming > Gaming Consoles > Sony DualShock 4
+Add breadcrumb structured data JSON-LD for Google
+
+6 — Create an auto-generating sitemap.xml:
+
+Dynamically generate sitemap including ALL product pages, category pages, and main pages
+Update sitemap automatically whenever a new product is added
+Include lastmod date for each URL
+Submit to Google Search Console
+
+7 — Add keyword-rich content to main pages:
+
+Homepage should mention: "buy electronics in Rwanda", "refurbished phones Kigali", "certified refurbished laptops Rwanda"
+Gaming page should mention: "gaming consoles Rwanda", "PS5 Rwanda", "buy gaming accessories Kigali"
+Each product page should have a full description with relevant keywords
+
+8 — Add a Blog section:
+
+Create a simple blog at /blog
+Add articles about topics like "Best Gaming Consoles in Rwanda 2026", "Where to buy refurbished iPhones in Kigali"
+Blog content drives organic Google traffic
+
+9 — Add Google Analytics and Google Search Console verification:
+
+Add Google Analytics 4 tracking code to all pages
+Add Google Search Console verification meta tag to homepage
+Track which pages get the most traffic
+
+10 — Add local SEO structured data:
+
+Add LocalBusiness schema to homepage:
+
+json{
+  "@type": "ElectronicsStore",
+  "@context": "https://schema.org",
+  "name": "Dopik Electronics",
+  "url": "https://dopikelectronics.com",
+  "telephone": "[phone number]",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kigali",
+    "addressCountry": "RW"
+  },
+  "openingHours": "Mo-Sa 08:00-18:00",
+  "priceRange": "RF"
+}

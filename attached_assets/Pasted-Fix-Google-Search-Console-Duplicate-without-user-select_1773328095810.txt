@@ -1,0 +1,50 @@
+Fix Google Search Console "Duplicate without user-selected canonical" indexing issue on dopikelectronics.com. Google is finding duplicate pages and not indexing them because no canonical tags are set. Here is everything that needs to be fixed:
+1 — Add canonical tags to every page:
+
+Add a <link rel="canonical" href="[full page URL]" /> tag inside the <head> of every page
+The canonical URL should always be the preferred version of the page
+Make it dynamic so every page automatically generates its own correct canonical URL
+Example:
+
+html<link rel="canonical" href="https://dopikelectronics.com/product/sony-dualshock-4" />
+2 — Fix URL parameter duplicates:
+
+Pages like /shop?category=Gaming+Consoles and /gaming might be showing the same content
+Add canonical tags on filtered/category pages pointing to the main preferred URL
+Make sure URLs with parameters like ?sort=, ?filter=, ?page= all have canonical pointing to the clean base URL
+
+3 — Fix trailing slash duplicates:
+
+Make sure dopikelectronics.com/gaming and dopikelectronics.com/gaming/ resolve to the same URL
+Add a redirect so one version (without trailing slash) is always used
+Set canonical to the version without trailing slash
+
+4 — Fix HTTP vs HTTPS duplicates:
+
+Make sure all pages redirect HTTP to HTTPS
+All canonical tags must use https:// not http://
+
+5 — Fix WWW vs non-WWW duplicates:
+
+Make sure www.dopikelectronics.com redirects to dopikelectronics.com (or vice versa, pick one)
+All canonical tags must consistently use the same preferred domain
+
+6 — Add canonical tags to these specific page types:
+
+Homepage: <link rel="canonical" href="https://dopikelectronics.com/" />
+Shop page: <link rel="canonical" href="https://dopikelectronics.com/shop" />
+Category pages: <link rel="canonical" href="https://dopikelectronics.com/shop?category=Gaming+Consoles" />
+Product pages: <link rel="canonical" href="https://dopikelectronics.com/product/[slug]" />
+Gaming page: <link rel="canonical" href="https://dopikelectronics.com/gaming" />
+
+7 — Generate and update the sitemap.xml:
+
+Make sure sitemap.xml only includes the canonical versions of all URLs
+Exclude paginated, filtered, and duplicate URLs from the sitemap
+Submit the updated sitemap to Google Search Console at https://dopikelectronics.com/sitemap.xml
+
+8 — Add robots meta tag to all pages:
+
+Add <meta name="robots" content="index, follow" /> to all main pages
+Add <meta name="robots" content="noindex, follow" /> to filtered/paginated pages that are duplicates
+

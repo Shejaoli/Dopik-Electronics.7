@@ -1,0 +1,83 @@
+Fix all SEO issues and improve the product page. Here's everything:
+1. Fix URL structure:
+
+Current: /product/slug/samsung-galaxy-s22 → Should be: /product/samsung-galaxy-s22
+Remove the /slug/ part from routes and all links across the app
+
+2. Dynamic meta tags:
+title: "{Product Name} - Buy in Kigali Rwanda | Dopik Electronics"
+meta description: First 160 characters of product description
+meta keywords: product name, brand, category, "buy in Rwanda", "Kigali"
+3. Open Graph tags for WhatsApp/Facebook sharing:
+og:title, og:description, og:image, og:url, og:type="product"
+og:price:amount, og:price:currency="RWF"
+4. Schema.org JSON-LD structured data:
+json{
+  "@type": "Product",
+  "name": "",
+  "image": [],
+  "description": "",
+  "brand": {"@type": "Brand", "name": ""},
+  "offers": {
+    "@type": "Offer",
+    "price": "",
+    "priceCurrency": "RWF",
+    "availability": "InStock or OutOfStock based on stockStatus",
+    "url": "",
+    "seller": {"@type": "Organization", "name": "Dopik Electronics"}
+  }
+}
+```
+
+**5. Fix images:**
+- Add descriptive `alt` text to ALL product images: `"{product name} - image 1"`, `"{product name} - image 2"` etc.
+- Add `loading="lazy"` to non-primary images
+- Add `width` and `height` attributes to prevent layout shift
+
+**6. Fix "You May Also Like" section:**
+- Show products from same category AND same brand first
+- Fall back to same category if not enough same-brand products
+- Never show the current product in the list
+- Show at least 4 related products
+
+**7. Format product description:**
+- Split description by newlines (`\n`) into paragraphs
+- If line starts with a feature keyword, render as bullet point
+- Wrap in proper `<p>` and `<ul>` HTML tags for better readability and SEO
+
+**8. Add canonical link tag:**
+- `<link rel="canonical" href="https://dopikelectronics.com/product/{slug}" />`
+- Prevents duplicate content penalty between `/product/31` and `/product/samsung-galaxy-s22`
+
+**9. Add breadcrumb navigation with Schema.org markup:**
+- Show: `Home > Samsung Phones > Samsung Galaxy S22`
+- Add BreadcrumbList JSON-LD structured data
+- Breadcrumb links help Google understand site structure
+
+**10. Add robots meta tag:**
+- `<meta name="robots" content="index, follow" />` on product pages
+- `<meta name="robots" content="noindex" />` on admin pages
+
+**11. Add Twitter Card tags:**
+```
+twitter:card = "summary_large_image"
+twitter:title = product name
+twitter:description = first 160 chars
+twitter:image = product main image
+12. Page speed improvements:
+
+Add rel="preload" for the main product image
+Ensure images are served in WebP format if possible
+
+13. Fix the site's global SEO (in index.html or root component):
+
+Add <html lang="en">
+Add default meta description for home page
+Add favicon if missing
+Add sitemap.xml generation for all product slug URLs
+Add robots.txt file allowing all crawlers
+
+After all changes, also update the backend:
+
+Add a GET /sitemap.xml endpoint that returns all product slugs dynamically
+Add a GET /robots.txt endpoint

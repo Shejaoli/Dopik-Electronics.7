@@ -1,0 +1,179 @@
+You are optimizing a production ecommerce website called Dopik Electronics.
+
+IMPORTANT PROJECT ARCHITECTURE:
+
+* Development environment = Replit
+* Production hosting = VPS server
+* Final optimizations MUST work correctly on the VPS deployment, not only inside Replit.
+* The website is developed on Replit then deployed manually to VPS.
+
+Your job is to optimize BOTH:
+
+1. The application code
+2. The VPS production deployment setup
+
+DO NOT optimize only for Replit preview environment.
+
+==================================================
+CURRENT GTMETRIX ISSUES
+=======================
+
+Performance: 26%
+Structure: 78%
+Page Size: 20.3MB
+Requests: 146
+TBT: 1.7s
+CLS: 0.33
+
+Major issues:
+
+* Huge images
+* Excessive JS
+* Slow rendering
+* Large payloads
+* Poor caching
+* Too many requests
+* Layout shifts
+
+==================================================
+OBJECTIVES
+==========
+
+Optimize the ecommerce website for REAL production VPS hosting.
+
+Target:
+
+* Mobile score 80+
+* Desktop score 90+
+* Reduce page size below 5MB
+* Faster product loading
+* Faster homepage rendering
+* Stable mobile experience
+
+==================================================
+PART 1 — APPLICATION OPTIMIZATION
+=================================
+
+1. IMAGE OPTIMIZATION
+
+* Convert images to WebP/AVIF
+* Compress product images automatically
+* Add lazy loading
+* Responsive image sizing
+* Optimize banners/sliders
+* Prevent oversized uploads
+
+2. JAVASCRIPT OPTIMIZATION
+
+* Remove unused JS
+* Dynamic imports
+* Code splitting
+* Defer non-critical scripts
+* Reduce bundle size
+* Reduce rerenders
+
+3. CSS & FONT OPTIMIZATION
+
+* Minify CSS
+* Remove unused styles
+* Optimize fonts
+* Use font-display swap
+
+4. HOMEPAGE OPTIMIZATION
+
+* Lazy-load below-fold sections
+* Reduce initial products rendered
+* Optimize carousels/sliders
+* Reduce DOM size
+
+5. DATABASE/API OPTIMIZATION
+
+* Reduce duplicate queries
+* Add caching
+* Optimize product fetching
+* Optimize search/filtering
+
+==================================================
+PART 2 — VPS SERVER OPTIMIZATION
+================================
+
+IMPORTANT:
+Provide VPS deployment optimizations too.
+
+Assume VPS uses:
+
+* Ubuntu Linux
+* Nginx or Apache
+* Node.js ecommerce app
+
+Implement or configure:
+
+1. NGINX/APACHE OPTIMIZATION
+
+* GZIP/Brotli compression
+* Static asset caching
+* Proper cache headers
+* HTTP/2 support
+* Reverse proxy optimization
+
+2. NODE.JS OPTIMIZATION
+
+* Production mode
+* PM2 process manager
+* Memory optimization
+* Compression middleware
+* Efficient static serving
+
+3. CDN & STATIC FILES
+
+* Configure CDN-ready static assets
+* Cache product images aggressively
+* Long-term asset caching
+
+4. SECURITY & PERFORMANCE
+
+* Rate limiting
+* Hidden admin route
+* Secure headers
+* Reduce unnecessary logs in production
+
+5. DATABASE PERFORMANCE
+
+* Query optimization
+* Connection pooling
+* Index optimization if needed
+
+==================================================
+DEPLOYMENT REQUIREMENTS
+=======================
+
+* Ensure all optimizations survive deployment from Replit to VPS.
+* Do not use Replit-only optimizations.
+* Ensure environment variables work correctly on VPS.
+* Ensure image paths/static assets work correctly after deployment.
+
+==================================================
+OUTPUT REQUIREMENTS
+===================
+
+After implementation provide:
+
+1. Application optimizations completed
+2. VPS/server optimizations completed
+3. Files modified
+4. Nginx/Apache config changes
+5. PM2 recommendations
+6. Estimated GTMetrix improvements
+7. Remaining bottlenecks
+8. Deployment instructions for VPS
+9. Any commands needed on VPS server
+
+IMPORTANT:
+Do NOT break:
+
+* Flutterwave payments
+* Admin dashboard
+* Product management
+* Authentication
+* Existing ecommerce functionality
+* SEO structure

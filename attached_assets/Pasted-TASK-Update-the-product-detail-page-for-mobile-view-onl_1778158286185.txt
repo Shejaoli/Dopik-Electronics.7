@@ -1,0 +1,97 @@
+TASK: Update the product detail page for mobile view only. Do NOT touch the product image/gallery section, header, footer, or homepage. Keep all existing Dopik Electronics colors (blue #1565C0, yellow #FFC107) and fonts. Only improve the layout and components below the product images.
+
+1. PRODUCT TITLE & RATING ROW
+
+Product title should be bold, 16px, dark color, full width
+Below title: show star rating (★ 4.5) in yellow + review count in gray + a wishlist heart icon and share icon aligned to the right on the same row
+Add a thin divider line below this row
+
+
+2. PRICE SECTION
+
+Show main price large and bold (e.g. RWF 245,000)
+Below it show original crossed-out price in gray + a green discount badge (e.g. "18% OFF") in small pill shape — all on one row
+Add small text "Inclusive of VAT" next to main price in gray, small font
+Do NOT make the price section take too much vertical space
+
+
+3. DELIVERY INFORMATION SECTION
+
+Add a white rounded card with title "DELIVERY INFORMATION" in bold small caps, dark color
+Inside show two rows:
+
+Row 1: a colored "express" pill label + text "Get it Tomorrow" + price on the right with an arrow icon
+Row 2: a "supermall" style label + "Get in 47 mins" bold text
+
+
+Separate the two rows with a small "or" centered divider text
+The card should have a light border and rounded corners (12px)
+
+
+4. PROMO CODE BADGES ROW
+
+Add a horizontal row with two dashed-border green rounded cards side by side
+Each card shows: a green percentage icon on the left + bold text "Extra 10% off" + smaller text "CODE: DOPIK10" below
+Second card: "Extra RWF 5,000 OFF" + "CODE: SALE200"
+Both cards should be equal width, green dashed border, light green background tint, small font
+
+
+5. PAYMENT INSTALLMENT ROW
+
+Add a single full-width light peach/orange tinted card
+Show a card icon on the left + text "Pay in 6 simple, interest free payments of RWF X" + a right arrow ">"
+Use a soft background color, rounded corners, small font
+
+
+6. COLOR VARIANT SELECTOR
+
+Section title: "Colour: [Selected Color Name]" — bold label
+Show a horizontal scrollable row of small square image cards (80x80px each) with the color name below each in 10px font
+Selected variant card should have a blue border (#1565C0) 2px solid
+Unselected cards have a light gray border
+
+
+7. STORAGE / MEMORY SELECTOR
+
+Section title: "Internal Memory: [Selected]" — bold label
+Show pill-shaped buttons in a row (e.g. 64GB, 128GB, 256GB)
+Selected pill: blue background (#1565C0) + white text
+Unselected pill: white background + gray border + dark text
+Buttons should be flexible width based on text, not stretched
+
+
+8. VERSION / VARIANT SELECTOR
+
+Section title: "Version:" bold label
+Same pill button style as storage selector
+Selected = blue filled, unselected = outlined
+
+
+9. ADD TO CART BUTTON — MOST IMPORTANT
+
+The button must be STICKY at the bottom of the screen on mobile (position: fixed, bottom: 0)
+Button should be full width BUT with 16px padding on left and right so it does not touch screen edges
+Height: 48px — not too tall, not too small — flexible and proportional
+Background: blue (#1565C0), text: white, font-weight: 700, font-size: 15px, border-radius: 10px
+Add a quantity selector (- 1 +) to the LEFT of the button, small, same height, white background with blue border
+The sticky bar background should be white with a top shadow so it floats above content
+Add enough bottom padding to the page content so the sticky button does not cover content
+
+
+10. EXTENDED WARRANTY SECTION
+
+Add a white rounded card with title "Get Extended Warranty" bold on the left + a red "NEW" badge pill on the right
+Subtitle: "Authorised repair centers" in small gray text
+Below: show 2 selectable options as bordered pill cards (e.g. "1 Year", "2 Years") — same style as storage selector
+
+
+GENERAL RULES:
+
+All changes are MOBILE ONLY — use @media (max-width: 768px) for everything
+Do NOT change desktop layout at all
+Do NOT touch the product image/gallery/slider section
+Do NOT change the navbar or footer
+Use new CSS class names prefixed with .pdp- to avoid breaking existing styles
+All cards and sections should have consistent 12px border-radius, white background, 1px light gray border
+Spacing between sections: 12px gap
+Everything must feel clean, minimal, and consistent with the existing Dopik blue and yellow brand

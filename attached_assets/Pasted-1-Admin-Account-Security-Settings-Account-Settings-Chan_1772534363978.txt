@@ -1,0 +1,244 @@
+1. Admin Account & Security Settings
+👤 Account Settings
+
+Change username
+
+Change email
+
+Change password (with current password confirmation)
+
+Force password reset
+
+Enable / disable 2FA (Google Authenticator / TOTP)
+
+Profile picture upload
+
+View last login
+
+View login history (IP address + device)
+
+🔒 Security Controls
+
+Session timeout settings
+
+Force logout all devices
+
+Brute-force login protection
+
+Rate limiting settings
+
+Password strength policy
+
+IP whitelist (optional for high security)
+
+Audit logs (who changed what and when)
+
+👥 2. User & Role Management
+Create Users
+
+Add Admin
+
+Add Editor
+
+Add Sales Manager
+
+Add Support Agent
+
+Add Accountant
+
+Role Permissions (Granular Control)
+
+Example permissions:
+
+Permission	Admin	Editor	Sales	Accountant
+Manage Users	✅	❌	❌	❌
+View Sales	✅	❌	✅	✅
+Issue Refunds	✅	❌	❌	✅
+Edit Services	✅	✅	❌	❌
+View Analytics	✅	❌	✅	✅
+Other Features
+
+Activate / Deactivate user
+
+Delete user
+
+Reset user password
+
+Assign custom permissions
+
+View user activity logs
+
+💰 3. Sales & Payment Settings (VERY IMPORTANT)
+
+This is the real “Sales Settings” section.
+
+Payment Gateways
+
+Connect Stripe
+
+Connect PayPal
+
+Enable / Disable payment methods
+
+Set currency (USD default)
+
+Tax settings (Sales tax per US state)
+
+Automatic invoice generation
+
+Refund settings
+
+Partial refund support
+
+Checkout Settings
+
+Enable coupon codes
+
+Set discount rules
+
+Set expiration date for coupons
+
+Minimum purchase rule
+
+Enable guest checkout
+
+Require phone number or not
+
+Enable terms agreement checkbox
+
+Taxes (USA Friendly)
+
+Add tax per state
+
+Enable automatic tax calculation
+
+Add EIN (if needed for invoices)
+
+📦 4. Orders & Booking Management Settings
+
+Default booking status (pending/confirmed)
+
+Auto-confirm bookings after payment
+
+Manual approval toggle
+
+Cancelation policy settings
+
+Reschedule rules
+
+Refund window settings
+
+Booking buffer time between appointments
+
+Staff assignment rules
+
+Max bookings per day
+
+📧 5. Notification Settings
+Email Settings
+
+Connect SMTP
+
+Admin email address
+
+Auto-send booking confirmation
+
+Auto-send invoice
+
+Reminder email (24h before booking)
+
+Cancellation email template
+
+SMS Settings (Optional)
+
+Connect Twilio
+
+Send SMS confirmation
+
+Send SMS reminder
+
+📊 6. Analytics & Reports Settings
+
+Revenue report (daily/monthly/yearly)
+
+Export CSV
+
+Export Excel
+
+Sales by service
+
+Sales by date range
+
+Top selling services
+
+Conversion rate
+
+Failed payments report
+
+🏢 7. Store / Business Settings
+
+Business name
+
+Business logo
+
+Phone number
+
+Address
+
+Timezone (important for USA clients)
+
+Business hours
+
+Social media links
+
+Footer content
+
+Custom domain settings
+
+🌍 8. SEO & Marketing Settings
+
+Site title
+
+Meta description
+
+Open Graph settings
+
+Google Analytics ID
+
+Facebook Pixel ID
+
+Sitemap generation
+
+Cookie consent toggle
+
+📝 9. Content Management
+
+Edit homepage text
+
+Edit service descriptions
+
+Add blog posts
+
+Upload images
+
+Manage testimonials
+
+Manage FAQ section
+
+🛠 10. Advanced Professional Features (Optional but Powerful)
+
+API keys management
+
+Webhook management
+
+Backup database button
+
+Restore backup
+
+Maintenance mode toggle
+
+System health monitor
+
+Server status
+
+Error logs viewer

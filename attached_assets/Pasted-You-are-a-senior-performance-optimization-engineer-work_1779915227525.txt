@@ -1,0 +1,178 @@
+You are a senior performance optimization engineer working on a production ecommerce website called Dopik Electronics.
+
+The current GTmetrix report is extremely poor and needs serious optimization.
+
+CURRENT GTMETRIX RESULTS:
+
+* Performance: 26%
+* Structure: 78%
+* LCP: 2.6s
+* TBT: 1.7s
+* CLS: 0.33
+* Fully Loaded Time: 5.2s
+* Total Page Size: 20.3MB
+* Total Requests: 146
+
+MAIN ISSUES DETECTED:
+
+* Enormous network payloads
+* Long main-thread tasks
+* Excessive JavaScript
+* Large images
+* No proper CDN optimization
+* Large layout shifts (CLS)
+* Excessive DOM size
+* Heavy homepage resources
+
+YOUR TASK:
+Optimize the ENTIRE ecommerce website professionally without breaking:
+
+* existing UI
+* ecommerce functionality
+* Flutterwave payments
+* admin dashboard
+* products
+* categories
+* customer experience
+
+==================================================
+CRITICAL PERFORMANCE GOALS
+==========================
+
+TARGETS:
+
+* Mobile Performance Score: 80+
+* Desktop Performance Score: 90+
+* Total Page Size: below 5MB
+* Reduce requests significantly
+* CLS below 0.1
+* TBT below 300ms
+* Faster homepage rendering
+
+==================================================
+
+1. IMAGE OPTIMIZATION (VERY IMPORTANT)
+   ==================================================
+
+Current issue:
+Images are extremely heavy and causing huge payload size.
+
+Tasks:
+
+* Convert images to WebP or AVIF where supported.
+* Compress all large images automatically.
+* Lazy-load all offscreen images.
+* Use responsive image sizing.
+* Prevent loading full-resolution images unnecessarily.
+* Optimize homepage banners and product images heavily.
+* Add modern image optimization pipeline.
+
+IMPORTANT:
+Do NOT reduce visible quality too aggressively.
+Maintain professional ecommerce appearance.
+
+==================================================
+2. JAVASCRIPT OPTIMIZATION
+==========================
+
+Current issue:
+Too much JS causing high TBT and slow rendering.
+
+Tasks:
+
+* Remove unused JS.
+* Code split large bundles.
+* Use dynamic imports.
+* Delay non-critical scripts.
+* Defer analytics/chat widgets if any.
+* Optimize React/Vue/Next rendering if applicable.
+* Reduce hydration cost.
+* Prevent unnecessary rerenders.
+
+==================================================
+3. HOMEPAGE OPTIMIZATION
+========================
+
+Homepage currently loads too many resources.
+
+Tasks:
+
+* Optimize hero slider/carousels.
+* Reduce heavy animations.
+* Limit initial products loaded.
+* Use skeleton loaders where necessary.
+* Lazy-load below-the-fold sections.
+* Optimize flash sale sections.
+
+==================================================
+4. CLS (LAYOUT SHIFT) FIXES
+===========================
+
+Current CLS = 0.33 (bad)
+
+Tasks:
+
+* Add fixed width/height to images.
+* Prevent dynamic content jumps.
+* Reserve space for banners/sliders/products.
+* Stabilize loading layouts.
+
+==================================================
+5. SERVER/API OPTIMIZATION
+==========================
+
+Tasks:
+
+* Reduce unnecessary API calls.
+* Optimize database queries.
+* Add caching strategy.
+* Optimize product fetching.
+* Prevent duplicate requests.
+
+==================================================
+6. FONT & CSS OPTIMIZATION
+==========================
+
+Tasks:
+
+* Remove unused CSS.
+* Minify CSS.
+* Optimize font loading.
+* Use font-display swap.
+* Reduce render-blocking resources.
+
+==================================================
+7. ECOMMERCE-SPECIFIC OPTIMIZATION
+==================================
+
+Tasks:
+
+* Fast product page loading.
+* Faster category filtering.
+* Optimize search.
+* Improve mobile shopping experience.
+* Maintain SEO and indexing.
+
+==================================================
+8. TESTING & SAFETY
+===================
+
+IMPORTANT:
+
+* Do NOT break existing functionality.
+* Do NOT remove important ecommerce features.
+* Maintain responsive design.
+* Test all pages after optimization.
+
+==================================================
+AFTER IMPLEMENTATION
+====================
+
+Provide:
+
+1. Full list of optimizations completed
+2. Before vs after improvements
+3. Estimated GTmetrix/PageSpeed gains
+4. Files/components optimized
+5. Remaining bottlenecks if any
+6. Additional recommendations for scaling ecommerce performance

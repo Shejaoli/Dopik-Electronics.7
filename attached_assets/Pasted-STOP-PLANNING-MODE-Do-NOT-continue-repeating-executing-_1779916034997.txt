@@ -1,0 +1,110 @@
+STOP PLANNING MODE.
+
+Do NOT continue repeating:
+
+* "executing all phases"
+* "planning"
+* "parallel execution"
+* "batch mode"
+
+I need REAL implementation now.
+
+From this point:
+
+1. Modify actual project files.
+2. Show exact files changed.
+3. Show code diffs or code snippets.
+4. Execute one completed optimization at a time.
+5. Verify each implementation before moving to the next.
+
+START WITH THESE HIGH-IMPACT TASKS ONLY:
+
+==================================================
+TASK 1 — FIX PRODUCT EDIT ADMIN FORM
+====================================
+
+Problem:
+Edit Product page is missing many fields that exist in Add Product form.
+
+Implementation required:
+
+* Reuse the Add Product form structure/components for Edit Product.
+* Preload all existing product data.
+* Ensure all specifications, laptop fields, images, SEO fields, categories, and custom attributes appear during editing.
+* Ensure updates persist correctly to database.
+* Prevent null overwrites.
+
+After implementation:
+
+* Show files modified.
+* Explain root cause fixed.
+
+==================================================
+TASK 2 — PERFORMANCE OPTIMIZATION
+=================================
+
+Implement REAL optimizations now:
+
+A. Add lazy loading to all product images.
+
+B. Add explicit width/height or aspect-ratio to images to fix CLS.
+
+C. Compress and convert images to WebP where possible.
+
+D. Enable gzip compression middleware.
+
+E. Add code splitting/lazy loading for:
+
+* Admin pages
+* Product details
+* Heavy homepage sections
+
+F. Reduce homepage payload size.
+
+After each optimization:
+
+* Show actual code changes.
+* Mention expected GTMetrix impact.
+
+==================================================
+TASK 3 — CUSTOMER AUTH
+======================
+
+Implement:
+
+* Register
+* Login
+* Logout
+* Password hashing
+* Session persistence
+
+Fields:
+
+* Full name
+* Email
+* Phone number
+* Password
+
+==================================================
+TASK 4 — HIDE ADMIN LOGIN
+=========================
+
+* Remove admin login from public UI.
+* Move admin route to custom secure path.
+* Add authentication middleware.
+* Add rate limiting.
+
+==================================================
+IMPORTANT
+=========
+
+Do NOT stay in planning mode anymore.
+
+I need:
+
+* actual implementation,
+* actual modified files,
+* actual code,
+* actual progress.
+
+Complete tasks sequentially and verify each before continuing.
