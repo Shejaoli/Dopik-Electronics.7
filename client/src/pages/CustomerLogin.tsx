@@ -6,23 +6,8 @@ import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, LogIn, Eye, EyeOff } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-
-function GoogleIcon() {
-  return (
-    <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-    </svg>
-  );
-}
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -56,105 +41,142 @@ export default function CustomerLogin() {
     },
   });
 
+  const errors = form.formState.errors;
+
   return (
     <>
       <Helmet>
         <title>Sign In | DOPIK ELECTRONICS</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
-        <Card className="w-full max-w-md shadow-xl">
-          <CardHeader className="text-center pb-4">
+
+      <div
+        className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, #05050f 0%, #0c0f1e 30%, #111827 60%, #0a0a18 100%)",
+        }}
+      >
+        {/* Ambient glow blobs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl pointer-events-none"
+          style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }} />
+
+        {/* Glass card */}
+        <div
+          className="relative w-full max-w-sm rounded-3xl p-8 z-10"
+          style={{
+            background: "rgba(255,255,255,0.06)",
+            backdropFilter: "blur(24px) saturate(180%)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            boxShadow: "0 25px 60px rgba(0,0,0,0.5)",
+          }}
+        >
+          {/* Logo */}
+          <div className="flex flex-col items-center mb-8">
             <Link href="/">
-              <img src="/dopik-logo.png" alt="DOPIK" className="h-10 mx-auto mb-2 object-contain" />
+              <img src="/images/logo.png" alt="DOPIK" className="h-10 object-contain mb-3"
+                onError={(e) => (e.currentTarget.style.display = "none")} />
             </Link>
-            <CardTitle className="text-2xl font-black tracking-tight">Sign In</CardTitle>
-            <CardDescription>Access your DOPIK account</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit((d) => loginMutation.mutate(d))} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="you@example.com"
-                          data-testid="input-email"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="••••••••"
-                            data-testid="input-password"
-                            {...field}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                          </button>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="submit"
-                  className="w-full h-11 font-bold"
-                  disabled={loginMutation.isPending}
-                  data-testid="button-submit"
-                >
-                  {loginMutation.isPending ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Signing in...</>
-                  ) : (
-                    <><LogIn className="h-4 w-4 mr-2" /> Sign In</>
-                  )}
-                </Button>
-              </form>
-            </Form>
-            <div className="relative my-5">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-border" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">or</span>
-              </div>
+            <h1 className="text-2xl font-black text-white tracking-tight">Welcome Back</h1>
+            <p className="text-white/50 text-sm mt-1">Sign in to your DOPIK account</p>
+          </div>
+
+          <form onSubmit={form.handleSubmit((d) => loginMutation.mutate(d))} className="space-y-4">
+            {/* Email */}
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                data-testid="input-email"
+                {...form.register("email")}
+                className="w-full h-12 rounded-full px-5 text-sm text-white placeholder:text-white/45 outline-none transition-all"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: errors.email ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)",
+                }}
+                onFocus={(e) => (e.currentTarget.style.border = "1px solid hsl(var(--primary))")}
+                onBlur={(e) => (e.currentTarget.style.border = errors.email ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)")}
+              />
+              {errors.email && <p className="text-xs text-red-400 mt-1 pl-4">{errors.email.message}</p>}
             </div>
+
+            {/* Password */}
+            <div>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  data-testid="input-password"
+                  {...form.register("password")}
+                  className="w-full h-12 rounded-full px-5 pr-12 text-sm text-white placeholder:text-white/45 outline-none transition-all"
+                  style={{
+                    background: "rgba(255,255,255,0.08)",
+                    border: errors.password ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)",
+                  }}
+                  onFocus={(e) => (e.currentTarget.style.border = "1px solid hsl(var(--primary))")}
+                  onBlur={(e) => (e.currentTarget.style.border = errors.password ? "1px solid hsl(var(--destructive))" : "1px solid rgba(255,255,255,0.15)")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {errors.password && <p className="text-xs text-red-400 mt-1 pl-4">{errors.password.message}</p>}
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loginMutation.isPending}
+              data-testid="button-submit"
+              className="w-full h-12 rounded-full font-bold uppercase tracking-widest text-sm transition-all active:scale-95 disabled:opacity-60 flex items-center justify-center gap-2"
+              style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}
+            >
+              {loginMutation.isPending ? (
+                <><Loader2 className="h-4 w-4 animate-spin" /> Signing in...</>
+              ) : "LOGIN"}
+            </button>
+          </form>
+
+          {/* Links row */}
+          <div className="flex items-center justify-between mt-5 text-xs text-white/45">
+            <span>Forgot Password?</span>
+            <Link href={`/register${redirectTo !== "/" ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
+              className="text-white/60 hover:text-white transition-colors font-medium">
+              Sign Up
+            </Link>
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+            <span className="text-xs text-white/35 uppercase tracking-widest">or login with</span>
+            <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.12)" }} />
+          </div>
+
+          {/* Social buttons */}
+          <div className="flex justify-center gap-4">
             <a
               href={`/auth/google?redirect=${encodeURIComponent(redirectTo)}`}
-              className="flex items-center justify-center w-full h-11 rounded-md border border-border bg-background hover:bg-accent/50 transition-colors text-sm font-medium"
+              className="flex items-center justify-center w-14 h-14 rounded-full transition-all hover:scale-105 active:scale-95"
+              style={{
+                background: "rgba(255,255,255,0.10)",
+                border: "1px solid rgba(255,255,255,0.18)",
+              }}
+              title="Continue with Google"
             >
-              <GoogleIcon />
-              Continue with Google
+              <svg className="h-6 w-6" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
             </a>
-            <p className="text-center text-sm text-muted-foreground mt-5">
-              Don't have an account?{" "}
-              <Link href="/register" className="font-semibold text-primary hover:underline">
-                Create one
-              </Link>
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </>
   );
