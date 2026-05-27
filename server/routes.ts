@@ -6,6 +6,8 @@ import { z } from "zod";
 import { hashPassword, verifyPassword, requireAdminAuth, requireSuperAdminAuth } from "./auth";
 import { db } from "./db";
 import { eq, count, desc } from "drizzle-orm";
+import { OAuth2Client } from "google-auth-library";
+import { randomBytes } from "crypto";
 import { insertProductSchema, insertOrderSchema, orders, insertVideoSchema, videos, admins, insertHomeSectionSchema, products, insertCouponCodeSchema } from "@shared/schema";
 import rateLimit from "express-rate-limit";
 import multer from "multer";
@@ -566,6 +568,87 @@ export async function registerRoutes(
   app.post("/api/customer/logout", (req, res) => {
     req.session.customerId = undefined as any;
     res.json({ message: "Logged out." });
+  });
+
+  // ── Google OAuth ──────────────────────────────────────────────────────────
+
+  const getBaseUrl = () => {
+    if (process.env.REPLIT_DEV_DOMAIN) return `https://${process.env.REPLIT_DEV_DOMAIN}`;
+    return process.env.APP_URL || `http://localhost:${process.env.PORT || 5000}`;
+  };
+
+  const getGoogleClient = () => {
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) return null;
+    return new OAuth2Client(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      `${getBaseUrl()}/auth/google/callback`
+    );
+  };
+
+  app.get("/auth/google", (req, res) => {
+    const googleClient = getGoogleClient();
+    if (!googleClient) {
+      return res.redirect("/login?error=google_not_configured");
+    }
+    const redirect = (req.query.redirect as string) || "/";
+    (req.session as any).oauthRedirect = redirect;
+    const authUrl = googleClient.generateAuthUrl({
+      access_type: "offline",
+      scope: ["profile", "email"],
+    });
+    res.redirect(authUrl);
+  });
+
+  app.get("/auth/google/callback", async (req, res) => {
+    try {
+      const googleClient = getGoogleClient();
+      if (!googleClient) return res.redirect("/login?error=google_not_configured");
+
+      const code = req.query.code as string;
+      if (!code) return res.redirect("/login?error=google_cancelled");
+
+      const { tokens } = await googleClient.getToken(code);
+      googleClient.setCredentials(tokens);
+
+      const ticket = await googleClient.verifyIdToken({
+        idToken: tokens.id_token!,
+        audience: process.env.GOOGLE_CLIENT_ID!,
+      });
+      const payload = ticket.getPayload();
+      if (!payload?.email) return res.redirect("/login?error=google_no_email");
+
+      const { sub: googleId, email, name, picture } = payload;
+
+      // Find by googleId first
+      let customer = await storage.getCustomerByGoogleId(googleId);
+      if (!customer) {
+        // Find by email, link Google account
+        customer = await storage.getCustomerByEmail(email);
+        if (customer) {
+          customer = await storage.updateCustomerGoogleId(customer.id, googleId, picture);
+        } else {
+          // Create new customer
+          const passwordHash = await hashPassword(randomBytes(32).toString("hex"));
+          customer = await storage.createCustomer({
+            fullName: name || email.split("@")[0],
+            email,
+            phone: "",
+            passwordHash,
+            googleId,
+            avatar: picture,
+          });
+        }
+      }
+
+      req.session.customerId = customer.id;
+      const redirectTo = (req.session as any).oauthRedirect || "/";
+      delete (req.session as any).oauthRedirect;
+      res.redirect(redirectTo);
+    } catch (error) {
+      console.error("Google OAuth error:", error);
+      res.redirect("/login?error=google_failed");
+    }
   });
 
   // ── Admin Customer Management Routes ─────────────────────────────────────

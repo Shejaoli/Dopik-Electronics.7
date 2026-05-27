@@ -124,9 +124,11 @@ export interface IStorage {
   // Customer auth methods
   getCustomerByEmail(email: string): Promise<Customer | undefined>;
   getCustomerById(id: number): Promise<Customer | undefined>;
-  createCustomer(data: { fullName: string; email: string; phone: string; passwordHash: string }): Promise<Customer>;
+  getCustomerByGoogleId(googleId: string): Promise<Customer | undefined>;
+  createCustomer(data: { fullName: string; email: string; phone: string; passwordHash: string; googleId?: string; avatar?: string }): Promise<Customer>;
   getCustomers(): Promise<Customer[]>;
   updateCustomerPassword(id: number, passwordHash: string): Promise<Customer>;
+  updateCustomerGoogleId(id: number, googleId: string, avatar?: string): Promise<Customer>;
   getOrdersByCustomerEmail(email: string): Promise<Order[]>;
 }
 
@@ -893,12 +895,17 @@ export class DatabaseStorage implements IStorage {
     return found;
   }
 
-  async createCustomer(data: { fullName: string; email: string; phone: string; passwordHash: string }): Promise<Customer> {
+  async createCustomer(data: { fullName: string; email: string; phone: string; passwordHash: string; googleId?: string; avatar?: string }): Promise<Customer> {
     const [created] = await db.insert(customers).values({
       ...data,
       email: data.email.toLowerCase(),
     }).returning();
     return created;
+  }
+
+  async getCustomerByGoogleId(googleId: string): Promise<Customer | undefined> {
+    const [found] = await db.select().from(customers).where(eq(customers.googleId, googleId)).limit(1);
+    return found;
   }
 
   async getCustomers(): Promise<Customer[]> {
@@ -907,6 +914,14 @@ export class DatabaseStorage implements IStorage {
 
   async updateCustomerPassword(id: number, passwordHash: string): Promise<Customer> {
     const [updated] = await db.update(customers).set({ passwordHash }).where(eq(customers.id, id)).returning();
+    return updated;
+  }
+
+  async updateCustomerGoogleId(id: number, googleId: string, avatar?: string): Promise<Customer> {
+    const [updated] = await db.update(customers)
+      .set({ googleId, ...(avatar ? { avatar } : {}) })
+      .where(eq(customers.id, id))
+      .returning();
     return updated;
   }
 

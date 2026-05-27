@@ -19,6 +19,20 @@ export function Navbar() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Secret admin access: triple-click logo within 600ms
+  const logoClickCount = useRef(0);
+  const logoClickTimer = useRef<NodeJS.Timeout | null>(null);
+  const handleLogoClick = (e: React.MouseEvent) => {
+    logoClickCount.current += 1;
+    if (logoClickTimer.current) clearTimeout(logoClickTimer.current);
+    logoClickTimer.current = setTimeout(() => { logoClickCount.current = 0; }, 600);
+    if (logoClickCount.current >= 3) {
+      e.preventDefault();
+      logoClickCount.current = 0;
+      setLocation("/xdopik-portal");
+    }
+  };
+
   const { data: customer } = useQuery<{ id: number; fullName: string; email: string } | null>({
     queryKey: ["/api/customer/me"],
     retry: false,
@@ -398,7 +412,7 @@ export function Navbar() {
             </button>
 
             {/* Logo - same logo as desktop */}
-            <Link href="/" className="flex items-center gap-1.5 shrink-0 min-w-0 flex-1" data-testid="link-mobile-logo">
+            <Link href="/" onClick={handleLogoClick} className="flex items-center gap-1.5 shrink-0 min-w-0 flex-1" data-testid="link-mobile-logo">
               <img
                 src="/images/logo.png"
                 alt="DOPIK"
@@ -443,7 +457,7 @@ export function Navbar() {
         <div className="hidden lg:flex mx-auto h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2">
             <div className="relative h-8 w-auto overflow-hidden shrink-0">
               <img src="/images/logo.png" alt="DOPIK" className="h-8 object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
             </div>

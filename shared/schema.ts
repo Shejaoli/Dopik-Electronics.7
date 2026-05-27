@@ -199,8 +199,10 @@ export const customers = pgTable("customers", {
   id: serial("id").primaryKey(),
   fullName: text("full_name").notNull(),
   email: text("email").notNull().unique(),
-  phone: text("phone").notNull(),
+  phone: text("phone").notNull().default(""),
   passwordHash: text("password_hash").notNull(),
+  googleId: text("google_id").unique(),
+  avatar: text("avatar"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
