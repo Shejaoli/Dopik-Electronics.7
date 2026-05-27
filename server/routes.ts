@@ -568,6 +568,67 @@ export async function registerRoutes(
     res.json({ message: "Logged out." });
   });
 
+  // ── Admin Customer Management Routes ─────────────────────────────────────
+
+  app.get("/api/admin/customers", requireAdminAuth, async (_req, res) => {
+    try {
+      const allCustomers = await storage.getCustomers();
+      const allOrders = await storage.getOrders();
+      const result = allCustomers.map((c) => {
+        const { passwordHash: _, ...safe } = c;
+        const customerOrders = allOrders.filter(
+          (o) => o.customerEmail?.toLowerCase() === c.email.toLowerCase()
+        );
+        const totalSpent = customerOrders
+          .filter((o) => o.status === "paid" || o.status === "delivered")
+          .reduce((sum, o) => sum + o.totalAmount, 0);
+        return {
+          ...safe,
+          orderCount: customerOrders.length,
+          totalSpent,
+          lastOrderAt: customerOrders[0]?.createdAt ?? null,
+        };
+      });
+      res.json(result);
+    } catch (error) {
+      console.error("Admin customers error:", error);
+      res.status(500).json({ message: "Failed to fetch customers." });
+    }
+  });
+
+  app.get("/api/admin/customers/:id", requireAdminAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const customer = await storage.getCustomerById(id);
+      if (!customer) return res.status(404).json({ message: "Customer not found." });
+      const { passwordHash: _, ...safe } = customer;
+      const customerOrders = await storage.getOrdersByCustomerEmail(customer.email);
+      const totalSpent = customerOrders
+        .filter((o) => o.status === "paid" || o.status === "delivered")
+        .reduce((sum, o) => sum + o.totalAmount, 0);
+      res.json({ ...safe, orders: customerOrders, orderCount: customerOrders.length, totalSpent });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch customer." });
+    }
+  });
+
+  app.post("/api/admin/customers/:id/reset-password", requireAdminAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { newPassword } = req.body;
+      if (!newPassword || newPassword.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters." });
+      }
+      const customer = await storage.getCustomerById(id);
+      if (!customer) return res.status(404).json({ message: "Customer not found." });
+      const passwordHash = await hashPassword(newPassword);
+      await storage.updateCustomerPassword(id, passwordHash);
+      res.json({ message: "Password updated successfully." });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to reset password." });
+    }
+  });
+
   app.get("/api/admin/users", requireSuperAdminAuth, async (_req, res) => {
     try {
       const adminsList = await storage.getAdmins();

@@ -12,11 +12,11 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle2, MessageCircle, Truck, CreditCard as CardIcon, Wallet, Calendar as CalendarIcon, Clock, Package, ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
+import { CheckCircle2, MessageCircle, Truck, CreditCard as CardIcon, Wallet, Calendar as CalendarIcon, Clock, Package, ArrowLeft, ArrowRight, ChevronRight, LogIn, UserPlus, ShieldCheck } from "lucide-react";
 import { SiVisa, SiMastercard } from "react-icons/si";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { insertOrderSchema } from "@shared/schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -711,6 +711,17 @@ export default function Checkout() {
   const [shippingData, setShippingData] = useState<ShippingForm | null>(null);
   const [createdOrder, setCreatedOrder] = useState<any>(null);
 
+  const { data: customer, isLoading: customerLoading } = useQuery<any>({
+    queryKey: ["/api/customer/me"],
+    queryFn: async () => {
+      const res = await fetch("/api/customer/me", { credentials: "include" });
+      if (!res.ok) return null;
+      return res.json();
+    },
+    retry: false,
+    staleTime: 30000,
+  });
+
   const shippingForm = useForm<ShippingForm>({
     resolver: zodResolver(shippingSchema),
     defaultValues: {
@@ -747,6 +758,27 @@ export default function Checkout() {
     }
   }, [location, setLocation]);
 
+  // Auto-fill shipping form from customer account when no saved shipping
+  useEffect(() => {
+    if (customer && !localStorage.getItem("checkout_shipping")) {
+      const nameParts = (customer.fullName || "").trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+      shippingForm.reset({
+        email: customer.email || "",
+        phone: customer.phone || "",
+        firstName,
+        lastName,
+        updates: false,
+        country: "Rwanda",
+        address: "",
+        apartment: "",
+        city: "",
+        province: "",
+      });
+    }
+  }, [customer]);
+
   const onShippingSubmit = (data: ShippingForm) => {
     localStorage.setItem("checkout_shipping", JSON.stringify(data));
     setShippingData(data);
@@ -760,6 +792,50 @@ export default function Checkout() {
   };
 
   const isPaymentStep = location === "/checkout/payment";
+
+  // Auth gate — must be logged in to checkout
+  if (!customerLoading && !customer) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full max-w-md text-center space-y-8"
+          >
+            <div className="mx-auto w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+              <ShieldCheck className="w-10 h-10 text-primary" />
+            </div>
+            <div className="space-y-3">
+              <h1 className="text-3xl font-black tracking-tighter">Sign in to checkout</h1>
+              <p className="text-muted-foreground text-base">
+                You need an account to place an order. Your details will be pre-filled at checkout.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Link href={`/login?redirect=${encodeURIComponent(location)}`}>
+                <Button className="w-full h-14 text-lg font-black rounded-2xl shadow-xl shadow-primary/20">
+                  <LogIn className="mr-2 h-5 w-5" />
+                  Sign In
+                </Button>
+              </Link>
+              <Link href={`/register?redirect=${encodeURIComponent(location)}`}>
+                <Button variant="outline" className="w-full h-14 text-lg font-bold rounded-2xl">
+                  <UserPlus className="mr-2 h-5 w-5" />
+                  Create Account
+                </Button>
+              </Link>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Already in your cart? No worries — items are saved.
+            </p>
+          </motion.div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">

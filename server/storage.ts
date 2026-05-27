@@ -125,6 +125,9 @@ export interface IStorage {
   getCustomerByEmail(email: string): Promise<Customer | undefined>;
   getCustomerById(id: number): Promise<Customer | undefined>;
   createCustomer(data: { fullName: string; email: string; phone: string; passwordHash: string }): Promise<Customer>;
+  getCustomers(): Promise<Customer[]>;
+  updateCustomerPassword(id: number, passwordHash: string): Promise<Customer>;
+  getOrdersByCustomerEmail(email: string): Promise<Order[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -896,6 +899,19 @@ export class DatabaseStorage implements IStorage {
       email: data.email.toLowerCase(),
     }).returning();
     return created;
+  }
+
+  async getCustomers(): Promise<Customer[]> {
+    return db.select().from(customers).orderBy(desc(customers.createdAt));
+  }
+
+  async updateCustomerPassword(id: number, passwordHash: string): Promise<Customer> {
+    const [updated] = await db.update(customers).set({ passwordHash }).where(eq(customers.id, id)).returning();
+    return updated;
+  }
+
+  async getOrdersByCustomerEmail(email: string): Promise<Order[]> {
+    return db.select().from(orders).where(eq(orders.customerEmail, email.toLowerCase())).orderBy(desc(orders.createdAt));
   }
 }
 

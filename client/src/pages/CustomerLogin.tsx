@@ -30,12 +30,14 @@ export default function CustomerLogin() {
     defaultValues: { email: "", password: "" },
   });
 
+  const redirectTo = new URLSearchParams(window.location.search).get("redirect") || "/";
+
   const loginMutation = useMutation({
     mutationFn: (data: LoginForm) => apiRequest("POST", "/api/customer/login", data),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["/api/customer/me"] });
       toast({ title: "Welcome back!", description: "You are now logged in." });
-      navigate("/");
+      navigate(redirectTo);
     },
     onError: (err: any) => {
       const msg = err?.message || "Invalid email or password.";

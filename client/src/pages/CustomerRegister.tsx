@@ -36,13 +36,15 @@ export default function CustomerRegister() {
     defaultValues: { fullName: "", email: "", phone: "", password: "", confirmPassword: "" },
   });
 
+  const redirectTo = new URLSearchParams(window.location.search).get("redirect") || "/";
+
   const registerMutation = useMutation({
     mutationFn: (data: Omit<RegisterForm, "confirmPassword">) =>
       apiRequest("POST", "/api/customer/register", data),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["/api/customer/me"] });
       toast({ title: "Account created!", description: "Welcome to DOPIK Electronics." });
-      navigate("/");
+      navigate(redirectTo);
     },
     onError: (err: any) => {
       const msg = err?.message || "Registration failed. Please try again.";

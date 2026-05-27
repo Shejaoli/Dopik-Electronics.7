@@ -54,6 +54,7 @@ import AdminHotDeals from "./AdminHotDeals";
 import AdminVideos from "./AdminVideos";
 import AdminFeaturedSlides from "./AdminFeaturedSlides";
 import AdminCoupons from "./AdminCoupons";
+import AdminCustomers from "./AdminCustomers";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 
@@ -76,6 +77,7 @@ const MENU = [
       { id: "Videos", icon: Film, label: "Promo Videos", color: "text-purple-400" },
       { id: "Featured Slides", icon: Sparkles, label: "Featured Slides", color: "text-yellow-400" },
       { id: "Coupons", icon: Tag, label: "Coupon Codes", color: "text-pink-400" },
+      { id: "Customers", icon: Users, label: "Customers", color: "text-teal-400" },
       { id: "Users", icon: Users, label: "Users", color: "text-cyan-400" },
     ],
   },
@@ -317,6 +319,8 @@ export default function AdminDashboard() {
             <AdminFeaturedSlides />
           ) : activeTab === "Coupons" ? (
             <AdminCoupons />
+          ) : activeTab === "Customers" ? (
+            <AdminCustomers />
           ) : activeTab === "Users" ? (
             <UserManagement />
           ) : activeTab === "Settings" ? (
