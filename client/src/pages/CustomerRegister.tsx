@@ -100,20 +100,12 @@ export default function CustomerRegister() {
         <title>Create Account | DOPIK ELECTRONICS</title>
       </Helmet>
 
-      {/* Full-screen background — light: soft gradient, dark: deep navy */}
-      <div className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden
-        bg-gradient-to-br from-slate-100 via-white to-blue-50
-        dark:from-gray-950 dark:via-slate-900 dark:to-gray-950">
+      {/* Full-screen background — electronics photo with overlay */}
+      <div className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden"
+        style={{ backgroundImage: "url('/images/auth-bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
 
-        {/* Ambient glow blobs — dark only */}
-        <div className="absolute top-1/4 right-1/3 w-96 h-96 rounded-full opacity-15 blur-3xl pointer-events-none hidden dark:block"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)" }} />
-        <div className="absolute bottom-1/3 left-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl pointer-events-none hidden dark:block"
-          style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }} />
-
-        {/* Light mode subtle glow */}
-        <div className="absolute top-1/3 left-1/3 w-72 h-72 rounded-full opacity-25 blur-3xl pointer-events-none block dark:hidden"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%)" }} />
+        {/* Overlay — lighter in light mode, darker in dark mode */}
+        <div className="absolute inset-0 bg-white/60 dark:bg-black/65 backdrop-blur-[2px]" />
 
         {/* Glass card */}
         <div className="relative w-full max-w-sm rounded-3xl p-8 z-10 backdrop-blur-2xl
