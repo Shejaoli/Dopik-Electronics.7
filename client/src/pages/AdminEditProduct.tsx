@@ -321,7 +321,7 @@ export default function AdminEditProduct({ productId, onBack }: AdminEditProduct
       return;
     }
 
-    // Convert spec entries to object
+    // specEntries is the single source of truth — build specs from it only
     const specs: Record<string, string> = {};
     specEntries.forEach(entry => {
       if (entry.key.trim()) {
@@ -329,13 +329,7 @@ export default function AdminEditProduct({ productId, onBack }: AdminEditProduct
       }
     });
 
-    // Merge with laptop specs if any
-    const laptopSpecs = data.specs as Record<string, string> || {};
-    Object.assign(specs, laptopSpecs);
-
-    // Update form state with final imageUrl to ensure validation passes
     form.setValue("imageUrl", imageUrl, { shouldValidate: true });
-
     updateMutation.mutate({ ...data, imageUrl, specs });
   };
 
@@ -880,16 +874,22 @@ export default function AdminEditProduct({ productId, onBack }: AdminEditProduct
                 <FormLabel className="text-base">Laptop Specifications</FormLabel>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Object.entries(LAPTOP_OPTIONS).map(([key, options]) => {
-                    const savedSpecs = (product?.specs as Record<string, string>) || {};
-                    const savedValue = savedSpecs[key] || "";
+                    const currentValue = specEntries.find(e => e.key === key)?.value || "";
                     return (
                       <div key={key} className="space-y-2">
                         <FormLabel className="text-xs capitalize">{key.replace(/([A-Z])/g, ' $1')}</FormLabel>
                         <Select
-                          defaultValue={savedValue}
+                          value={currentValue}
                           onValueChange={(value) => {
-                            const currentSpecs = form.getValues("specs") as Record<string, string> || {};
-                            form.setValue("specs", { ...currentSpecs, [key]: value });
+                            setSpecEntries(prev => {
+                              const idx = prev.findIndex(e => e.key === key);
+                              if (idx >= 0) {
+                                const updated = [...prev];
+                                updated[idx] = { ...updated[idx], value };
+                                return updated;
+                              }
+                              return [...prev, { key, value }];
+                            });
                           }}
                         >
                           <FormControl>
