@@ -120,10 +120,12 @@ export function ProductCard({ product, isDeal, hideFeaturedBadge }: ProductCardP
         <Link href={`/product/${product.slug}`} className="block">
           <div className="aspect-square w-full overflow-hidden bg-white dark:bg-gray-50/5">
             <picture>
-              <source
-                srcSet={product.imageUrl.replace(/\.(jpe?g|png)$/i, ".webp")}
-                type="image/webp"
-              />
+              {!product.imageUrl.startsWith("/uploads") && (
+                <source
+                  srcSet={product.imageUrl.replace(/\.(jpe?g|png)$/i, ".webp")}
+                  type="image/webp"
+                />
+              )}
               <img
                 src={product.imageUrl}
                 alt={product.name}
@@ -131,6 +133,12 @@ export function ProductCard({ product, isDeal, hideFeaturedBadge }: ProductCardP
                 width={400}
                 height={400}
                 className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105 p-2"
+                onError={(e) => {
+                  const t = e.currentTarget;
+                  t.onerror = null;
+                  t.src = "/images/logo.png";
+                  t.className = t.className + " opacity-30";
+                }}
               />
             </picture>
           </div>

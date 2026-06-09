@@ -90,6 +90,7 @@ function QuickViewContent({ product, onClose }: { product: Product; onClose: () 
                   src={images[selectedImage] || product.imageUrl}
                   alt={product.name}
                   className="h-full w-full object-contain p-2"
+                  onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; t.className = t.className + " opacity-30"; }}
                 />
               </div>
               {images.length > 1 && (
@@ -104,7 +105,7 @@ function QuickViewContent({ product, onClose }: { product: Product; onClose: () 
                           : "border-border opacity-60 hover:opacity-100"
                       }`}
                     >
-                      <img src={img} alt="" className="h-full w-full object-cover" />
+                      <img src={img} alt="" className="h-full w-full object-cover" onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; }} />
                     </button>
                   ))}
                 </div>

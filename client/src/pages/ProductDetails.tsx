@@ -239,7 +239,7 @@ export default function ProductDetails() {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="hidden md:flex fixed bottom-5 left-0 right-0 mx-auto z-50 bg-background/95 backdrop-blur border border-border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.18)] items-center gap-4 px-5 py-3 w-[min(860px,calc(100vw-48px))]"
           >
-            <img src={product.imageUrl} alt={product.name} className="h-10 w-10 rounded-lg object-cover border border-border flex-shrink-0" />
+            <img src={product.imageUrl} alt={product.name} className="h-10 w-10 rounded-lg object-cover border border-border flex-shrink-0" onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; }} />
             <p className="flex-1 text-sm font-semibold text-foreground truncate max-w-xs">{product.name}</p>
             <span className="text-base font-bold text-primary whitespace-nowrap">{formatPrice(totalPrice)}</span>
             <div className="flex items-center rounded-lg border border-border bg-card h-9">
@@ -298,6 +298,7 @@ export default function ProductDetails() {
                 src={selectedImage}
                 alt={product.name}
                 className="h-full w-full object-contain"
+                onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; t.className = t.className + " opacity-30"; }}
               />
             </div>
             {/* Thumbnails row */}
@@ -308,7 +309,7 @@ export default function ProductDetails() {
                   onClick={() => setSelectedImage(img)}
                   className={`h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all hover:scale-105 ${selectedImage === img ? "border-primary shadow-md" : "border-border opacity-60 hover:opacity-100"}`}
                 >
-                  <img src={img} alt={`${product.name} thumbnail ${idx}`} className="h-full w-full object-cover" />
+                  <img src={img} alt={`${product.name} thumbnail ${idx}`} className="h-full w-full object-cover" onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; }} />
                 </button>
               ))}
             </div>
@@ -754,6 +755,7 @@ export default function ProductDetails() {
                 src={selectedImage}
                 alt={product.name}
                 className="h-full w-full object-contain"
+                onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; t.className = t.className + " opacity-30"; }}
               />
             </div>
             <div className="flex gap-2 overflow-x-auto pb-1">
@@ -763,7 +765,7 @@ export default function ProductDetails() {
                   onClick={() => setSelectedImage(img)}
                   className={`h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all hover:scale-105 ${selectedImage === img ? "border-primary shadow-md" : "border-border opacity-70 hover:opacity-100"}`}
                 >
-                  <img src={img} alt={`${product.name} thumbnail ${idx}`} className="h-full w-full object-cover" />
+                  <img src={img} alt={`${product.name} thumbnail ${idx}`} className="h-full w-full object-cover" onError={(e) => { const t = e.currentTarget; t.onerror = null; t.src = "/images/logo.png"; }} />
                 </button>
               ))}
             </div>
