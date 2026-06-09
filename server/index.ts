@@ -9,13 +9,23 @@ import compression from "compression";
 const app = express();
 const httpServer = createServer(app);
 
+// Trust reverse proxy (nginx on VPS) so sessions and cookies work correctly
+app.set("trust proxy", 1);
+
 app.use(compression());
 
 const SessionStore = MemoryStore(session);
 
+const isProduction = process.env.NODE_ENV === "production";
+
 app.use(
   session({
-    cookie: { maxAge: 86400000 },
+    cookie: {
+      maxAge: 86400000,
+      secure: isProduction,   // HTTPS-only cookies in production
+      sameSite: isProduction ? "none" : "lax",
+      httpOnly: true,
+    },
     store: new SessionStore({
       checkPeriod: 86400000, // prune expired entries every 24h
     }),
